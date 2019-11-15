@@ -1,0 +1,22 @@
+第一次把项目上传到GitHub
+
+第一步：在GitHub创建自己的仓库(Repository)，保存下需要上传代码的地址;
+第二步：在项目文件下，git bash here , 输入：echo "# Test"  >> README.md
+第三步：建立git仓库，git init
+第四步：将项目的所有文件添加到仓库中：git add .
+第五步：git add README.md
+第六步：编辑注释：git commit -m "注释语句"
+第七步：将本地仓库关联到GitHub，git remote add origin https://（第一步保存的地址）
+第八步：上传GitHub之前先pull下：git pull origin master
+第九步：上传项目到GitHub仓库：git push -u origin master
+
+中间会弹窗提示输入username及password。
+
+ 
+更新代码到GitHub
+
+第一步：查看当前git仓库状态：git status
+第二步：更新全部：git add *
+第三步：接着输入更新说明：git commit -m "更新说明"
+第四步：先拉去当前分支最新代码：git pull
+第五步：push到远程master分支上：git push origin master
