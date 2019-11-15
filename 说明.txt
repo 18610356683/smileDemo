@@ -1,0 +1,5 @@
+目前easy-mock服务器问题(经常断线，且打开很慢)，我的模拟数据放在fast mock上，
+登录地址为：https://www.fastmock.site
+项目是：SmileVue
+用户名：Mario丨Q
+密码：lhqsgdsg
