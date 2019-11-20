@@ -3,3 +3,17 @@
 项目是：SmileVue
 用户名：Mario丨Q
 密码：lhqsgdsg
+
+
+
+
+笔记开始
+
+使用淘宝源安装插件
+npm install --save bcrypt --registry=https://registry.npm.taobao.org
+
+24讲
+安装加密插件bcrypt时报错，需要依赖Python环境，网上推荐使用bcrypt-nodejs是一样的效果
+敲代码得出，bcrypt与bcrypt-nodejs使用的函数是不一样的
+事实证明，在Windows环境下，用bcryptjs替代bcrypt是可以的，且不需要依赖，函数完全兼容
+

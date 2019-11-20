@@ -32,25 +32,89 @@
         <div>
             <img v-lazy="adBanner" width="100%">
         </div>
+        <!-- Recommend goods area -->
+        <div class="recommend-area">
+            <div class="recommend-title">
+                商品推荐
+            </div>
+            <div class="recommend-body">
+                <swiper :options="swiperOption">
+                    <swiper-slide v-for="(item, index) in recommendGoods" :key="index">
+                        <div class="recommend-item">
+                            <img :src="item.image" width="80%">
+                            <div>{{item.goodsName}}</div>
+                            <div>￥{{item.price | moneyFilter}}(￥{{item.mallPrice | moneyFilter}})</div>
+                        </div>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </div>
+        <!-- <swiperDefault></swiperDefault>
+        <swiperDefault2></swiperDefault2>
+        <swiperDefault3></swiperDefault3>
+        <swiperText></swiperText> -->
+        <floorComponent :floorData="floor1" :floorTitle="floorName.floor1"></floorComponent>
+        <floorComponent :floorData="floor2" :floorTitle="floorName.floor2"></floorComponent>
+        <floorComponent :floorData="floor3" :floorTitle="floorName.floor3"></floorComponent>
 
+        <!--Hot Area-->
+        <div class="hot-area">
+        <div class="hot-title">热卖商品</div>
+        <div class="hot-goods">
+        <!--这里需要一个list组件-->
+            <van-list>
+                <van-row gutter="20">
+                    <van-col span="12" v-for="(item, index) in hotGoods" :key="index">
+                        <goodsInfo :goodsImage="item.image" :goodsName="item.name" :goodsPrice="item.price"></goodsInfo>
+                    </van-col>
+                </van-row>
+            </van-list>
+        </div>
+</div>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import 'swiper/dist/css/swiper.css'
+    import {swiper, swiperSlide} from 'vue-awesome-swiper'
+    // import swiperDefault from '../swiper/swiperDefault'
+    // import swiperDefault2 from '../swiper/swiperDefault2'
+    // import swiperDefault3 from '../swiper/swiperDefault3'
+    // import swiperText from '../swiper/swiperText'
+    import floorComponent from '../component/floorComponent'
+    import {toMoney} from '@/filter/moneyFilter.js'
+    import goodsInfo from '../component/goodsInfoComponent'
+    import url from '@/serviceAPI.config.js'
     export default {
         data() {
             return {
+                swiperOption:{
+                    slidesPerView: 3
+                },
                 msg: 'Shopping Mall',
                 locationIcon: require('../../assets/images/location.png'),
                 bannerPicArray: [],
                 category:[],
                 adBanner:'',
+                recommendGoods:[],
+                floor1: [],
+                floor2: [],
+                floor3: [],
+                floorName: {},
+                hotGoods: [],// 热卖商品
             }
         },
+        filters: {
+            moneyFilter(money){
+                return toMoney(money)
+            }
+        },
+        // components: {swiper, swiperSlide, swiperDefault, swiperDefault2, swiperDefault3, swiperText},
+        components: {swiper, swiperSlide, floorComponent, goodsInfo, },
         created(){
             axios({
-                url: 'https://www.fastmock.site/mock/b9c8a504788477a8385115496624bea2/smileVue/index',
+                url: url.getShoppingMallInfo,
                 method: 'get',
             })
             .then(response=>{
@@ -59,6 +123,13 @@
                     this.category = response.data.data.category;
                     this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS;
                     this.bannerPicArray = response.data.data.slides;
+                    this.recommendGoods = response.data.data.recommend;
+                    this.floor1 = response.data.data.floor1;
+                    this.floor2 = response.data.data.floor2;
+                    this.floor3 = response.data.data.floor3;
+                    this.floorName = response.data.data.floorName;
+                    this.hotGoods = response.data.data.hotGoods;
+                    console.log(this.floor1)
                 }
             })
             .catch(error=>{
@@ -108,5 +179,30 @@
         padding: .3rem;
         font-size: 12px;
         text-align: center;
+    }
+    .recommend-area{
+        background-color: #fff;
+        margin-top: .3rem;
+    }
+    .recommend-title{
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        padding: .2rem;
+        color: #e5017d;
+    }
+    .recommend-body{
+        border-bottom: 1px solid #eee;
+    }
+    .recommend-item{
+        width: 99%;
+        border-right: 1px solid #eee;
+        font-size: 12px;
+        text-align: center;
+    }
+    .hot-area{
+        text-align: center;
+        font-size:14px;
+        height: 1.8rem;
+        line-height:1.8rem;
     }
 </style>
